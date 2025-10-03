@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
-use Illuminate\Support\Facades\Auth;
+use App\Services\TransferService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionsCotrnoller extends Controller
 {
@@ -17,7 +18,7 @@ class TransactionsCotrnoller extends Controller
         $transactions = Transaction::with('sender', 'receiver')->get();
 
         return response()->json([
-            'data' => $transactions
+            'data' => $transactions,
         ]);
     }
 
@@ -31,14 +32,11 @@ class TransactionsCotrnoller extends Controller
             'amount' => 'required|numeric',
         ]);
 
-        $data['sender_id'] = Auth::id();
-        $data['commission_fee'] = $request->amount * 0.15;
-
         // Create new transaction
-        Transaction::create($data);
+        TransferService::transfer(Auth::id(), $data['receiver_id'], $data['amount']);
 
         return response()->json([
-            'message' => 'Transactions stored successfully'
+            'message' => 'Transactions stored successfully',
         ]);
     }
 }
