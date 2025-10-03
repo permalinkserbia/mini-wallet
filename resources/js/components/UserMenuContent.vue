@@ -7,7 +7,6 @@ import {
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { logout } from '@/routes';
-import { edit } from '@/routes/profile';
 import type { User } from '@/types';
 import { Link, router } from '@inertiajs/vue3';
 import { LogOut, Settings } from 'lucide-vue-next';
@@ -30,14 +29,6 @@ defineProps<Props>();
         </div>
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuGroup>
-        <DropdownMenuItem :as-child="true">
-            <Link class="block w-full" :href="edit()" prefetch as="button">
-                <Settings class="mr-2 h-4 w-4" />
-                Settings
-            </Link>
-        </DropdownMenuItem>
-    </DropdownMenuGroup>
     <DropdownMenuSeparator />
     <DropdownMenuItem :as-child="true">
         <Link
