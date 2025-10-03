@@ -9,16 +9,22 @@ use Throwable;
 
 class TransferService
 {
-    public static function transfer(int $senderId, int $receiverId, int $amount)
+    public static function transfer(int $senderId, int $receiverId, float $amount)
     {
         // Prevent same account transfers
         if ($senderId === $receiverId) {
-            throw new \InvalidArgumentException('Cannot transfer to same account');
+            return [
+                'success' => false,
+                'message' => 'Cannot transfer to same account'
+            ];
         }
 
         // Prevent same account transfers
-        if ($amount > 0) {
-            throw new \InvalidArgumentException('Amount must be positive number');
+        if ($amount < 0) {
+            return [
+                'success' => false,
+                'message' => 'Amount must be positive number'
+            ];
         }
 
         $maxRetries = 3;
@@ -39,7 +45,8 @@ class TransferService
                     }
 
                     // Apply updates
-                    $sender->balance = $sender->balance - $amount;
+                    $commissionFee = $amount * 0.015;
+                    $sender->balance = $sender->balance - ($amount + $commissionFee);
                     $receiver->balance = $receiver->balance + $amount;
 
                     $sender->save();
@@ -50,10 +57,13 @@ class TransferService
                         'sender_id' => $sender->id,
                         'receiver_id' => $receiver->id,
                         'amount' => $amount,
-                        'commission_fee' => $amount * 0.015,
+                        'commission_fee' => $commissionFee,
                     ]);
 
-                    return true;
+                    return [
+                        'success' => true,
+                        'message' => 'Transfer saved successfully'
+                    ];
                 }, 5); // optional timeout in seconds for transaction
             } catch (Throwable $e) {
                 // Retry on deadlock/lock timeouts
@@ -64,7 +74,10 @@ class TransferService
 
                     continue;
                 }
-                throw $e;
+                return [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ];
             }
         }
     }
