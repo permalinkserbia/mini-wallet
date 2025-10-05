@@ -62,6 +62,8 @@ class TransferService
 
                     return [
                         'success' => true,
+                        'receiver_id' => $receiver->id,
+                        'amount' => $amount,
                         'message' => 'Transfer saved successfully'
                     ];
                 }, 5); // optional timeout in seconds for transaction

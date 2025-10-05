@@ -1,5 +1,6 @@
 import { InertiaLinkProps } from '@inertiajs/vue3';
 import type { LucideIcon } from 'lucide-vue-next';
+import { userInfo } from 'os';
 
 export interface Auth {
     user: User;
@@ -31,6 +32,7 @@ export interface User {
     name: string;
     email: string;
     avatar?: string;
+    balance?: string;
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
@@ -50,6 +52,10 @@ export interface PaginationLink {
   url: string | null;
   label: string;
   active: boolean;
+}
+
+export interface userInfo {
+    id
 }
 
 export interface PaginatedResponse<T> {

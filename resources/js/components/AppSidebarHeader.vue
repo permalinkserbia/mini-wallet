@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import type { BreadcrumbItemType } from '@/types';
+import type { BreadcrumbItemType, User } from '@/types';
 
 withDefaults(
     defineProps<{
         breadcrumbs?: BreadcrumbItemType[];
+        user: User;
     }>(),
     {
         breadcrumbs: () => [],
@@ -23,5 +24,6 @@ withDefaults(
                 <Breadcrumbs :breadcrumbs="breadcrumbs" />
             </template>
         </div>
+        <div class="absolute right-50">Balance: <b> {{ user.balance }} </b> €</div>
     </header>
 </template>

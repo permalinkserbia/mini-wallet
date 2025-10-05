@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { Label } from '@/components/ui/label'
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, User } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import {
-  NumberField,
-  NumberFieldContent,
-  NumberFieldDecrement,
-  NumberFieldIncrement,
-  NumberFieldInput,
+    NumberField,
+    NumberFieldContent,
+    NumberFieldDecrement,
+    NumberFieldIncrement,
+    NumberFieldInput,
 } from "@/components/ui/number-field"
 import Button from '@/components/ui/button/Button.vue';
 import { useForm } from '@inertiajs/vue3';
@@ -18,7 +18,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select'
+} from '@/components/ui/select';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -39,6 +39,7 @@ interface User {
 }
 
 interface Props {
+    user: User,
     users: User[]
 }
 
@@ -51,9 +52,10 @@ const handleSubmit = () => {
 </script>
 
 <template>
+
     <Head title="New Transfer" />
 
-    <AppLayout :breadcrumbs="breadcrumbs">
+    <AppLayout :breadcrumbs="breadcrumbs" :user="user">
         <div class="p-4">
             <form @submit.prevent="handleSubmit" class="w-8/12 space-y-4" action="/transfer">
                 <div class="space-y-2">
@@ -72,21 +74,16 @@ const handleSubmit = () => {
                 </div>
                 <div class="space-y-2">
                     <Label for="Amount">Amount</Label>
-                    <NumberField
-                        id="Amount"
-                        v-model="form.amount"
-                        :default-value="0"
-                        :format-options="{
+                    <NumberField id="Amount" v-model="form.amount" :default-value="0" :format-options="{
                         style: 'currency',
                         currency: 'EUR',
                         currencyDisplay: 'code',
                         currencySign: 'accounting',
-                        }"
-                    >
+                    }">
                         <NumberFieldContent>
-                        <NumberFieldDecrement />
-                        <NumberFieldInput />
-                        <NumberFieldIncrement />
+                            <NumberFieldDecrement />
+                            <NumberFieldInput />
+                            <NumberFieldIncrement />
                         </NumberFieldContent>
                     </NumberField>
                     <div v-if="form.errors.amount" class="text-sm text-red-600">{{ form.errors.amount }}</div>

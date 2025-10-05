@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TransferSaved;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Services\TransferService;
@@ -24,6 +25,7 @@ class TransactionsCotrnoller extends Controller
                 $q->where('sender_id', Auth::id())
                 ->orWhere('receiver_id', Auth::id());
             })
+            ->latest()
             ->paginate($this->paginate);
 
         return response()->json([
@@ -39,10 +41,12 @@ class TransactionsCotrnoller extends Controller
                 $q->where('sender_id', Auth::id())
                 ->orWhere('receiver_id', Auth::id());
             })
+            ->latest()
             ->paginate($this->paginate);
 
         return Inertia::render('transactions/History', [
             'transactions' => $transactions,
+            'user' => Auth::user(),
             'pagination' => [
                 'current_page' => $transactions->currentPage(),
                 'last_page' => $transactions->lastPage(),
@@ -59,7 +63,8 @@ class TransactionsCotrnoller extends Controller
     public function create()
     {
         $users = User::whereNot('id', Auth::id())->get();
-        return Inertia::render('transactions/Transfer', compact('users'));
+        $user = Auth::user();
+        return Inertia::render('transactions/Transfer', compact('users', 'user'));
     }
 
     /**
@@ -85,7 +90,9 @@ class TransactionsCotrnoller extends Controller
             return response()->json($response);
         }
 
-        // If everything is correct
+        // If everything is correct trigger TransferSaved event and redirect user to Transaction History screen
+        broadcast(new TransferSaved($response))->toOthers();
+
         return redirect()->route('transaction_history.index')->with('message', $response['message']);
     }
 }
