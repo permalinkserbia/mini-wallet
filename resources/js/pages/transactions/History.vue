@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Button from '@/components/ui/button/Button.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, usePage, router } from '@inertiajs/vue3';
+import { type BreadcrumbItem, type PaginatedResponse, type Transaction } from '@/types';
+import { Head, usePage } from '@inertiajs/vue3';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Info } from 'lucide-vue-next';
 import {
@@ -14,6 +14,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import Pagination from '@/components/Pagination.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,16 +25,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const page = usePage();
 
-interface Transaction {
-    id: number,
-    sender: object,
-    receiver: object,
-    amount: string,
-    commission_fee: string,
-}
+
 
 interface Props {
-    transactions: Transaction[]
+    transactions: PaginatedResponse<Transaction>
 }
 
 const props = defineProps<Props>();
@@ -71,7 +66,7 @@ const props = defineProps<Props>();
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-for="transaction in transactions" :key="transaction.id">
+                    <TableRow v-for="transaction in transactions.data" :key="transaction.id">
                         <TableCell>{{ transaction.id }}</TableCell>
                         <TableCell>{{ transaction.sender.name }}</TableCell>
                         <TableCell>{{ transaction.receiver.name }}</TableCell>
@@ -80,6 +75,7 @@ const props = defineProps<Props>();
                     </TableRow>
                 </TableBody>
             </Table>
+            <Pagination :resource="transactions" />
         </div>
     </AppLayout>
 </template>

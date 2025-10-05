@@ -11,6 +11,8 @@ use Inertia\Inertia;
 
 class TransactionsCotrnoller extends Controller
 {
+    private $paginate = 10;
+
     /**
      * Get all transactions
      */
@@ -18,9 +20,11 @@ class TransactionsCotrnoller extends Controller
     {
         // Logic to retrieve transactions
         $transactions = Transaction::with('sender', 'receiver')
-            ->where('sender_id', Auth::id())
-            ->where('receiver_id', Auth::id())
-            ->get();
+            ->where(function ($q) {
+                $q->where('sender_id', Auth::id())
+                ->orWhere('receiver_id', Auth::id());
+            })
+            ->paginate($this->paginate);
 
         return response()->json([
             'data' => $transactions,
@@ -31,11 +35,22 @@ class TransactionsCotrnoller extends Controller
     public function transactionHistory()
     {
         $transactions = Transaction::with('sender', 'receiver')
-            ->where('sender_id', Auth::id())
-            ->orWhere('receiver_id', Auth::id())
-            ->get();
+            ->where(function ($q) {
+                $q->where('sender_id', Auth::id())
+                ->orWhere('receiver_id', Auth::id());
+            })
+            ->paginate($this->paginate);
 
-        return Inertia::render('transactions/History', compact('transactions'));
+        return Inertia::render('transactions/History', [
+            'transactions' => $transactions,
+            'pagination' => [
+                'current_page' => $transactions->currentPage(),
+                'last_page' => $transactions->lastPage(),
+                'total' => $transactions->total(),
+                'next_page_url' => $transactions->nextPageUrl(),
+                'prev_page_url' => $transactions->previousPageUrl(),
+            ],
+        ]);
     }
 
     /**

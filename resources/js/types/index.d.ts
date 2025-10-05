@@ -37,3 +37,31 @@ export interface User {
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export interface Transaction {
+    id: number,
+    sender: object,
+    receiver: object,
+    amount: string,
+    commission_fee: string,
+}
+
+export interface PaginationLink {
+  url: string | null;
+  label: string;
+  active: boolean;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  current_page: number;
+  from: number | null;
+  last_page: number;
+  links: PaginationLink[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number | null;
+  total: number;
+}
