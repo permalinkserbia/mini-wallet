@@ -91,7 +91,7 @@ const handleSubmit = () => {
                     </NumberField>
                     <div v-if="form.errors.amount" class="text-sm text-red-600">{{ form.errors.amount }}</div>
                 </div>
-                <Button type="submit" :disabled="form.processing">Create</Button>
+                <Button type="submit" :disabled="form.processing">Send</Button>
             </form>
         </div>
     </AppLayout>
