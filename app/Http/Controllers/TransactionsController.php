@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\TransferSaved;
+use App\Http\Requests\TransferRequest;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Services\TransferService;
@@ -86,19 +87,13 @@ class TransactionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(TransferRequest $request)
     {
-        // Validate request data
-        $validated = $request->validate([
-            'receiver_id' => ['required', 'numeric'],
-            'amount'      => ['required', 'numeric'],
-        ]);
-
         // Execute transfer via service layer
         $response = TransferService::transfer(
             Auth::id(),
-            $validated['receiver_id'],
-            $validated['amount']
+            $request->receiver_id,
+            $request->amount,
         );
 
         // Handle API requests (under /api prefix)
