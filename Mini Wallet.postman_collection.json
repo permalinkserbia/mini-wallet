@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "ec6a8561-7dca-471e-8557-9f97a4cff70d",
+		"name": "Mini Wallet",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18954041",
+		"_collection_link": "https://dimitrije-drakulic.postman.co/workspace/Dimitrije-Drakulic-Workspace~0a2cabe5-3424-4b95-b1fd-15055567ef34/collection/18954041-ec6a8561-7dca-471e-8557-9f97a4cff70d?action=share&source=collection_link&creator=18954041"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"user_a@miniwallet.com\",\n    \"password\": \"123123123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/api/auth/login",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "office@permalink.rs",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "Dzomb@spfcnova123",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Gets the token"
+			},
+			"response": []
+		},
+		{
+			"name": "List all transactions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "OBx3WvEFTmKVW4BPIJL8VeEwm87M5VDhdtuFFrno3f016bd7",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDM0YzYwN2E5YmZhZjk0M2NiNGNiZGEzZjQzYmRkMTFmZTdiZGE0ZmYxYzcwMDdlOTRiZGFhMjk3ODUyYWI5OTdlZGExZDA2ZjBmMTJjYzgiLCJpYXQiOjE3MjkxNjQ1MTAuMjk3MTMyLCJuYmYiOjE3MjkxNjQ1MTAuMjk3MTM2LCJleHAiOjE3NjA3MDA1MTAuMjU4NTYxLCJzdWIiOiIiLCJzY29wZXMiOltdfQ.EHlbBPOWHJ102uE2v3bLK-GPtGIaPAONHCxsqqiAtF0Q1m3fAFfbEqTXja_w2o8lbc9UIh21ZTUYl-XHjFYXE00oZA4M3xf4ZhsV-SEmE6rK3drNdszFTyMuKWS-u1FZC4Ljh7g3T8QapdSnIQH9VXHIta5AJtG7iM8eSp4BYY-QcmAfItw1EN-KZ0egRpKKZjy4QyjOeFVq4KO83eAdf5P-1JvthgiqgfhCuq2aW7G2LNKO4CAKrstQR7stQR7WmP8Bwote8nPShzGZMGwGEhxnV4STR-fm_FlWXuHs9fI--eer-SZTgPHNYlp9fLDOyJ05GsARItJ-kTYweZQ6qk0wONdznLwHyyKRgXGEGyXKSelnYF4T22xIgqWUAkNEaOyQAwqYDjMCPGTS83Yodbtk1LQL3c7xEGE6n1nvOwTj6xwbxY1s0jXyxcr3Tlk7ZWN1oX8mdQRjSTjnZNZd0LDxwQFOfD-Xfl98J07VR9SYhaxiqEwGiiZPvx5jOFrrDay0JciEuzgjAG8AeQQbafSvqYEiB2HmAsDsiRikMuEfkJDOmz77w1eK4dislU6BIJnxkevRaCumMwyXoL6gF8tRQpAkrWWc2YKgy9ijbTFFZvpm776r4bVUqq931wAgDFJzAQbFML3Q0hH-wtKN9URActFZWJjnzj0QHxvW1ZQ",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"member_id\": \"1922\",\n    \"email\": \"sdfsdf@adasd.cas\",\n    \"password\": \"sdfsdfsdo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/api/transactions",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"api",
+						"transactions"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Create new transaction",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "OBx3WvEFTmKVW4BPIJL8VeEwm87M5VDhdtuFFrno3f016bd7",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDM0YzYwN2E5YmZhZjk0M2NiNGNiZGEzZjQzYmRkMTFmZTdiZGE0ZmYxYzcwMDdlOTRiZGFhMjk3ODUyYWI5OTdlZGExZDA2ZjBmMTJjYzgiLCJpYXQiOjE3MjkxNjQ1MTAuMjk3MTMyLCJuYmYiOjE3MjkxNjQ1MTAuMjk3MTM2LCJleHAiOjE3NjA3MDA1MTAuMjU4NTYxLCJzdWIiOiIiLCJzY29wZXMiOltdfQ.EHlbBPOWHJ102uE2v3bLK-GPtGIaPAONHCxsqqiAtF0Q1m3fAFfbEqTXja_w2o8lbc9UIh21ZTUYl-XHjFYXE00oZA4M3xf4ZhsV-SEmE6rK3drNdszFTyMuKWS-u1FZC4Ljh7g3T8QapdSnIQH9VXHIta5AJtG7iM8eSp4BYY-QcmAfItw1EN-KZ0egRpKKZjy4QyjOeFVq4KO83eAdf5P-1JvthgiqgfhCuq2aW7G2LNKO4CAKrstQR7stQR7WmP8Bwote8nPShzGZMGwGEhxnV4STR-fm_FlWXuHs9fI--eer-SZTgPHNYlp9fLDOyJ05GsARItJ-kTYweZQ6qk0wONdznLwHyyKRgXGEGyXKSelnYF4T22xIgqWUAkNEaOyQAwqYDjMCPGTS83Yodbtk1LQL3c7xEGE6n1nvOwTj6xwbxY1s0jXyxcr3Tlk7ZWN1oX8mdQRjSTjnZNZd0LDxwQFOfD-Xfl98J07VR9SYhaxiqEwGiiZPvx5jOFrrDay0JciEuzgjAG8AeQQbafSvqYEiB2HmAsDsiRikMuEfkJDOmz77w1eK4dislU6BIJnxkevRaCumMwyXoL6gF8tRQpAkrWWc2YKgy9ijbTFFZvpm776r4bVUqq931wAgDFJzAQbFML3Q0hH-wtKN9URActFZWJjnzj0QHxvW1ZQ",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"receiver_id\": 1,\n    \"amount\": 45.0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{apiUrl}}/api/transactions",
+					"host": [
+						"{{apiUrl}}"
+					],
+					"path": [
+						"api",
+						"transactions"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		},
+		{
+			"key": "apiUrl",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
