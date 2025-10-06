@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TransactionsCotrnoller;
+use App\Http\Controllers\TransactionsController;
 use Illuminate\Support\Facades\Route;
 
 use Inertia\Inertia;
@@ -15,9 +15,9 @@ Route::get('dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Transactions pages
-    Route::get('/', [TransactionsCotrnoller::class, 'transactionHistory'])->name('transaction_history.index');
-    Route::get('/transfer', [TransactionsCotrnoller::class, 'create'])->name('transfer.create');
-    Route::post('/transfer', [TransactionsCotrnoller::class, 'store'])->name('transfer.store');
+    Route::get('/', [TransactionsController::class, 'transactionHistory'])->name('transaction_history.index');
+    Route::get('/transfer', [TransactionsController::class, 'create'])->name('transfer.create');
+    Route::post('/transfer', [TransactionsController::class, 'store'])->name('transfer.store');
 });
 
 require __DIR__.'/auth.php';

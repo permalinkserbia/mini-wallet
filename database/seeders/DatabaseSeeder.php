@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'User A',
+            'name' => 'User B',
             'email' => 'user_b@miniwallet.com',
             'password' => bcrypt('123123123'),
             'balance' => 1000
